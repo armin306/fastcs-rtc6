@@ -7,13 +7,13 @@
 ### Architecture Layers
 
 - **Bindings Layer** (`src/fastcs_rtc6/bindings/`): C++ pybind11 wrappers around proprietary RTC6 library
-- **Controller Layer** (`src/fastcs_rtc6/controller/`): FastCS SubControllers managing EPICS attributes and hardware commands
+- **Controller Layer** (`src/fastcs_rtc6/controller/`): FastCS Controllers/sub-controllers managing EPICS attributes and hardware commands
 - **Device Layer** (`src/fastcs_rtc6/device.py`): Ophyd-async StandardReadable devices exposing EPICS signals
 - **Planning Layer** (`src/fastcs_rtc6/cut_shapes.py`, `plan_stubs.py`): Bluesky plans for laser cut shapes
 
 ### Key Dependencies
 
-- **fastcs ~0.8.0**: FastCS framework for IOC infrastructure
+- **fastcs[epicsca] ~0.14.2**: FastCS framework for IOC infrastructure (the CA transport is a separate extra as of fastcs 0.14)
 - **ophyd-async**: Async device abstraction for beamline hardware
 - **bluesky**: Experimental orchestration and planning
 - **pybind11**: C++ to Python bindings
@@ -35,6 +35,14 @@ ruff format .
 
 The stub generator creates `rtc6_bindings.pyi` (do NOT edit manually).
 
+### Running the IOC
+
+```bash
+fastcs-rtc6 run fastcs.yaml
+```
+
+Config-driven since the fastcs 0.14 migration (`fastcs.launch.launch()`) - there's no more `ioc <prefix> <box_ip> ...` CLI. Connection/hardware options (box IP, program/correction file paths, retry behaviour) live in `fastcs.yaml` under the controller entry, mapped onto `RtcControllerOptions` in `rtc_controller.py`. The entry's `id:` sets the live PV prefix (see Fixing EPICS Prefix Issues below).
+
 ### Test Requirements
 
 - Tests requiring proprietary RTC6 library are marked `@pytest.mark.needs_librtc6` - exclude with `-m "not needs_librtc6"`
@@ -43,24 +51,25 @@ The stub generator creates `rtc6_bindings.pyi` (do NOT edit manually).
 
 ### Python Version Constraint
 
-**Python 3.11 only** - fastcs doesn't work properly on 3.12 (fails silently). Locked in pyproject.toml.
+**Python 3.11 only** - no longer a fastcs limitation (fastcs 0.14.2 supports 3.11-3.14, confirmed via fastcs-carbide's CI matrix). The constraint now is the compiled bindings: `rtc6_bindings.cpython-311-*.so` is built for CPython 3.11 specifically. Targeting a newer Python means rebuilding the bindings for it (see C++ Bindings Updates) as well as bumping `requires-python`/classifiers in pyproject.toml.
 
 ## Core Patterns & Conventions
 
 ### EPICS Attributes & Handlers
 
-Controllers use FastCS attribute system with custom handlers:
+Controllers use fastcs's `AttributeIO`/`AttributeIORef` system (fastcs 0.14+; the old `Sender`/`Updater` handler protocol and `SubController` - folded into `Controller` - are gone). `RtcControlSettings` shares one `RtcSettingsIO` across all its attributes, dispatching per-attribute via a `set_fn` callable on each attribute's `io_ref`:
 
 ```python
-class RtcControlSettings(ConnectedSubController):
-    @dataclass
-    class ControlSettingsHandler(Sender):
-        cmd: Callable
-        async def put(self, controller, attr, value):
-            self.cmd(value)  # Custom logic when attribute written
+@dataclass
+class RtcSettingsIORef(AttributeIORef):
+    set_fn: Callable[["RtcControlSettings", Any], None] | None = None
+
+class RtcSettingsIO(AttributeIO[Any, RtcSettingsIORef]):
+    async def send(self, attr, value):
+        attr.io_ref.set_fn(self.controller, value)  # Custom logic when attribute written
 ```
 
-SubControllers inherit `RtcConnection` via `ConnectedSubController` parent.
+Sub-controllers still inherit `RtcConnection` via `ConnectedSubController`, registered with `add_sub_controller(path_segment, instance)` (not `register_sub_controller`). Watch for `Controller.__setattr__` auto-registering any `BaseController` assigned via `self.x = ...` as a sub-controller under that name - `RtcController` bypasses this for `_info_controller` via `object.__setattr__`.
 
 ### Ophyd-Async Device Pattern
 
@@ -122,9 +131,9 @@ The README notes: `test_connect()` from `test_bindings.py` must pass for hardwar
 
 ### Fixing EPICS Prefix Issues
 
-Device classes use `prefix` parameter to match IOC naming. Check:
+The IOC's live PV prefix comes from `fastcs.yaml`'s `controllers[].id` (currently `LA18L-EA-RTC6-01` - Diamond's EPICS-gateway-compatible naming; a bare prefix like the old `RTC6ETH:` won't pass the gateway's regex), not a Python-level default. The ophyd-async `Rtc6Eth` device's `prefix` constructor default (`device.py`) must be kept in sync with it manually. Check:
 
-- IOC record naming vs device prefix in `__init__.py`
+- `fastcs.yaml`'s `id:` vs `Rtc6Eth.__init__`'s `prefix` default in `device.py`
 - FastCS controller attribute groups in `rtc_controller.py`
 
 ### Debugging Bindings

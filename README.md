@@ -12,6 +12,14 @@ Source          | <https://github.com/armin306/fastcs-rtc6>
 Docker          | `docker run ghcr.io/armin306/fastcs-rtc6:latest`
 Releases        | <https://github.com/armin306/fastcs-rtc6/releases>
 
+# running the IOC
+
+```bash
+fastcs-rtc6 run fastcs.yaml
+```
+
+Config-driven, via [fastcs](https://github.com/DiamondLightSource/FastCS)'s `launch()` - there's no separate `ioc <prefix> <box_ip> ...` command any more. Connection settings (box IP, program/correction file paths, retry behaviour) go under the controller entry in `fastcs.yaml`; its `id:` sets the IOC's PV prefix (currently `LA18L-EA-RTC6-01`, chosen to pass Diamond's EPICS gateways).
+
 # updating the bindings module
 
 To update the bindings, in the devcontainer and with the virtual env activated, execute:
@@ -47,4 +55,4 @@ ${workspaceFolder}/**
 
 # notes
 
-- fastcs doesn't completely work for python 3.12 but fails silently so this project will need to be moved to 3.11
+- Python 3.11 only: not a fastcs limitation any more (fastcs 0.14.2 supports 3.11-3.14), but the compiled bindings (`rtc6_bindings.cpython-311-*.so`) are built for CPython 3.11 specifically - targeting a newer Python means rebuilding them (see "updating the bindings module" above) as well as bumping `requires-python`/classifiers in `pyproject.toml`.
