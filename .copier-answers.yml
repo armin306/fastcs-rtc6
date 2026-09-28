@@ -4,12 +4,12 @@ _src_path: gh:DiamondLightSource/python-copier-template
 author_email: david.perl@diamond.ac.uk
 author_name: David Perl
 description: FastCS IOC for the ScanLab RTC6 Ethernet laser controller
-distribution_name: rtc6-fastcs
+distribution_name: fastcs-rtc6
 docker: true
 docs_type: README
 git_platform: github.com
-github_org: dperl-dls
-package_name: rtc6_fastcs
+github_org: armin306
+package_name: fastcs_rtc6
 pypi: false
-repo_name: rtc6-fastcs
+repo_name: fastcs-rtc6
 type_checker: pyright

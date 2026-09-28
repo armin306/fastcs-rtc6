@@ -8,8 +8,8 @@ import bluesky.preprocessors as bpp
 import numpy as np
 from bluesky.run_engine import RunEngine
 
-from rtc6_fastcs.device import Rtc6Eth
-from rtc6_fastcs.plan_stubs import (
+from fastcs_rtc6.device import Rtc6Eth
+from fastcs_rtc6.plan_stubs import (
     draw_polygon,
     draw_polygon_with_arcs,
     go_to_home,

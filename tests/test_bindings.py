@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.needs_librtc6
 def test_add():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     sum = bindings.add(4, 5)
     assert sum == 9
@@ -13,7 +13,7 @@ def test_add():
 
 @pytest.mark.needs_librtc6
 def test_ip_conversion():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     result = bindings.ip_str_to_int("123.0.0.1")
     assert result == 16777339
@@ -28,7 +28,7 @@ def test_ip_conversion():
 
 @pytest.mark.needs_librtc6
 def test_exception():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     exception_text = "abc123"
 
@@ -40,7 +40,7 @@ def test_exception():
 
 @pytest.mark.needs_librtc6
 def test_connection_exception():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     with pytest.raises(bindings.RtcConnectionError) as e:
         bindings.check_connection()
@@ -50,7 +50,7 @@ def test_connection_exception():
 
 @pytest.mark.needs_librtc6
 def test_connect():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     serial = bindings.connect(
         "172.23.171.209",
@@ -63,7 +63,7 @@ def test_connect():
 
 @pytest.mark.needs_librtc6
 def test_card_info():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     bindings.connect(
         "172.23.171.209",
@@ -78,14 +78,14 @@ def test_card_info():
 
 @pytest.mark.needs_librtc6
 def test_close():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     _ = bindings.close()
 
 
 @pytest.mark.needs_librtc6
 def test_get_error():
-    from rtc6_fastcs.bindings import rtc6_bindings as bindings
+    from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
     try:
         bindings.connect(

@@ -1,15 +1,15 @@
-# AI Coding Instructions for rtc6-fastcs
+# AI Coding Instructions for fastcs-rtc6
 
 ## Project Overview
 
-**rtc6-fastcs** is a FastCS IOC (EPICS Input/Output Controller) wrapping the ScanLab RTC6 Ethernet laser controller. It combines Python (device layer, controllers) with C++ bindings (low-level hardware communication).
+**fastcs-rtc6** is a FastCS IOC (EPICS Input/Output Controller) wrapping the ScanLab RTC6 Ethernet laser controller. It combines Python (device layer, controllers) with C++ bindings (low-level hardware communication).
 
 ### Architecture Layers
 
-- **Bindings Layer** (`src/rtc6_fastcs/bindings/`): C++ pybind11 wrappers around proprietary RTC6 library
-- **Controller Layer** (`src/rtc6_fastcs/controller/`): FastCS SubControllers managing EPICS attributes and hardware commands
-- **Device Layer** (`src/rtc6_fastcs/device.py`): Ophyd-async StandardReadable devices exposing EPICS signals
-- **Planning Layer** (`src/rtc6_fastcs/cut_shapes.py`, `plan_stubs.py`): Bluesky plans for laser cut shapes
+- **Bindings Layer** (`src/fastcs_rtc6/bindings/`): C++ pybind11 wrappers around proprietary RTC6 library
+- **Controller Layer** (`src/fastcs_rtc6/controller/`): FastCS SubControllers managing EPICS attributes and hardware commands
+- **Device Layer** (`src/fastcs_rtc6/device.py`): Ophyd-async StandardReadable devices exposing EPICS signals
+- **Planning Layer** (`src/fastcs_rtc6/cut_shapes.py`, `plan_stubs.py`): Bluesky plans for laser cut shapes
 
 ### Key Dependencies
 
@@ -25,11 +25,11 @@
 When modifying C++ bindings (rtc6_bindings.cpp/pyi), rebuild using:
 
 ```bash
-cd src/rtc6_fastcs/bindings/build
+cd src/fastcs_rtc6/bindings/build
 cmake ..
 make
 cd ../../../..
-pybind11-stubgen rtc6_fastcs.bindings.rtc6_bindings -o src
+pybind11-stubgen fastcs_rtc6.bindings.rtc6_bindings -o src
 ruff format .
 ```
 
@@ -133,6 +133,6 @@ Cannot directly inspect C++ behavior from Python tests - use logging in C++ or t
 
 ## Project References
 
-- **Source**: https://github.com/dperl-dls/rtc6-fastcs
-- **Container**: `ghcr.io/dperl-dls/rtc6-fastcs:latest`
+- **Source**: https://github.com/armin306/fastcs-rtc6
+- **Container**: `ghcr.io/armin306/fastcs-rtc6:latest`
 - **RTC6 Manual**: Referenced in code comments (e.g., "manual page 314")

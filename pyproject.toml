@@ -3,7 +3,7 @@ requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rtc6-fastcs"
+name = "fastcs-rtc6"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: Apache Software License",
@@ -35,18 +35,22 @@ dev = [
 ]
 
 [project.scripts]
-rtc6-fastcs = "rtc6_fastcs.__main__:app"
+fastcs-rtc6 = "fastcs_rtc6.__main__:app"
 
 [project.urls]
-GitHub = "https://github.com/dperl-dls/rtc6-fastcs"
+GitHub = "https://github.com/armin306/fastcs-rtc6"
 
 [[project.authors]] # Further authors may be added by duplicating this section
 email = "david.perl@diamond.ac.uk"
 name = "David Perl"
 
+[[project.authors]]
+email = "armin306@icloud.com"
+name = "Armin Wagner"
+
 
 [tool.setuptools_scm]
-version_file = "src/rtc6_fastcs/_version.py"
+version_file = "src/fastcs_rtc6/_version.py"
 
 [tool.pyright]
 typeCheckingMode = "standard"
@@ -66,7 +70,7 @@ markers = [
 testpaths = "docs src tests"
 
 [tool.coverage.run]
-data_file = "/tmp/rtc6_fastcs.coverage"
+data_file = "/tmp/fastcs_rtc6.coverage"
 
 [tool.coverage.paths]
 # Tests are run from installed location, map back to the src directory
@@ -90,7 +94,7 @@ allowlist_externals =
 commands =
     pre-commit: pre-commit run --all-files --show-diff-on-failure {posargs}
     type-checking: pyright src tests {posargs}
-    tests: pytest -m "not needs_librtc6" --cov=rtc6_fastcs --cov-report term --cov-report xml:cov.xml {posargs}
+    tests: pytest -m "not needs_librtc6" --cov=fastcs_rtc6 --cov-report term --cov-report xml:cov.xml {posargs}
 """
 
 [tool.ruff]

@@ -29,8 +29,8 @@ FROM python:${PYTHON_VERSION}-slim AS runtime
 # Add apt-get system dependecies for runtime here if needed
 COPY --from=build /venv/ /venv/
 ENV PATH=/venv/bin:$PATH
-RUN rtc6-fastcs install-library
+RUN fastcs-rtc6 install-library
 
 # change this entrypoint if it is not the same as the repo
-ENTRYPOINT ["rtc6-fastcs"]
+ENTRYPOINT ["fastcs-rtc6"]
 CMD ["ioc"]

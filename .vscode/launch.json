@@ -8,7 +8,7 @@
             "name": "Debug running IOC",
             "type": "debugpy",
             "request": "launch",
-            "module": "rtc6_fastcs",
+            "module": "fastcs_rtc6",
             "args": [
                 "ioc"
             ],

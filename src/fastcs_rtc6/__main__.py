@@ -8,7 +8,7 @@ import typer
 from fastcs.launch import FastCS
 from fastcs.transport.epics.options import EpicsIOCOptions, EpicsOptions
 
-from rtc6_fastcs.controller import RtcController
+from fastcs_rtc6.controller import RtcController
 
 from . import __version__
 
@@ -42,7 +42,7 @@ def main(
 @app.command()
 def install_library():
     subprocess.call(
-        ["bash", "/workspace/rtc6-controller/src/rtc6_fastcs/install_library.sh"]
+        ["bash", "/workspace/rtc6-controller/src/fastcs_rtc6/install_library.sh"]
     )
 
 

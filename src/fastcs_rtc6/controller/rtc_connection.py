@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from rtc6_fastcs.bindings.rtc6_bindings import CardInfo, RtcError
+from fastcs_rtc6.bindings.rtc6_bindings import CardInfo, RtcError
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ class RtcConnection:
         correction_file: str,
         retry_connect: bool = True,
     ) -> None:
-        from rtc6_fastcs.bindings import rtc6_bindings as bindings
+        from fastcs_rtc6.bindings import rtc6_bindings as bindings
 
         retry_connect = True
         self._bindings = bindings

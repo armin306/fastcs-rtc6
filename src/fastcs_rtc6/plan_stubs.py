@@ -1,7 +1,7 @@
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 
-from rtc6_fastcs.device import Rtc6Eth
+from fastcs_rtc6.device import Rtc6Eth
 
 # from blueapi.core import MsgGenerator
 # from dodal.common.beamlines.beamline_utils import device_factory

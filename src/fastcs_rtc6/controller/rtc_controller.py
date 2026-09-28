@@ -10,8 +10,8 @@ from fastcs.controller import Controller, SubController
 from fastcs.datatypes import Bool, Float, Int, String
 from fastcs.wrappers import command
 
-from rtc6_fastcs.bindings import rtc6_bindings as rtc6
-from rtc6_fastcs.controller.rtc_connection import RtcConnection
+from fastcs_rtc6.bindings import rtc6_bindings as rtc6
+from fastcs_rtc6.controller.rtc_connection import RtcConnection
 
 LOGGER = logging.getLogger(__name__)
 

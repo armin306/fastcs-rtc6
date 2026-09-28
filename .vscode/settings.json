@@ -10,7 +10,7 @@
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
     },
-    "cmake.sourceDirectory": "/workspace/src/rtc6_fastcs/bindings",
+    "cmake.sourceDirectory": "/workspace/src/fastcs_rtc6/bindings",
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",
