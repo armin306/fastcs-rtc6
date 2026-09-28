@@ -10,7 +10,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 description = "FastCS IOC for the ScanLab RTC6 Ethernet laser controller"
-dependencies = ["fastcs~=0.8.0", "aioca", "numpy"]
+dependencies = ["fastcs[epicsca]~=0.14.2", "numpy"]
 dynamic = ["version"]
 license.file = "LICENSE"
 readme = "README.md"
@@ -35,7 +35,7 @@ dev = [
 ]
 
 [project.scripts]
-fastcs-rtc6 = "fastcs_rtc6.__main__:app"
+fastcs-rtc6 = "fastcs_rtc6.__main__:main"
 
 [project.urls]
 GitHub = "https://github.com/armin306/fastcs-rtc6"

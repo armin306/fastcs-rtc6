@@ -95,7 +95,7 @@ class Rtc6List(StandardReadable):
 
 
 class Rtc6Eth(StandardReadable, AsyncStageable, Triggerable):
-    def __init__(self, prefix: str = "RTC6ETH:", name: str = "") -> None:
+    def __init__(self, prefix: str = "LA18L-EA-RTC6-01:", name: str = "") -> None:
         super().__init__(name)
         with self.add_children_as_readables():
             self.info = Rtc6Info(prefix + "INFO:")

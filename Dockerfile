@@ -29,8 +29,11 @@ FROM python:${PYTHON_VERSION}-slim AS runtime
 # Add apt-get system dependecies for runtime here if needed
 COPY --from=build /venv/ /venv/
 ENV PATH=/venv/bin:$PATH
-RUN fastcs-rtc6 install-library
+RUN bash "$(python -c 'import fastcs_rtc6, os; print(os.path.join(os.path.dirname(fastcs_rtc6.__file__), "install_library.sh"))')"
 
 # change this entrypoint if it is not the same as the repo
 ENTRYPOINT ["fastcs-rtc6"]
-CMD ["ioc"]
+# fastcs.yaml isn't baked into this image - the real deployment (k8s) is
+# expected to mount it and override this with `run <path-to-config>`,
+# matching fastcs-carbide's Dockerfile.
+CMD ["--version"]

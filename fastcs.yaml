@@ -1,0 +1,10 @@
+controllers:
+  - id: LA18L-EA-RTC6-01
+    type: fastcs_rtc6.RtcController
+    box_ip: 172.23.171.209
+    program_file_dir: ./rtc6_files/program_files
+    correction_file: ./correction_files/D3_10019.ct5
+    coordinate_system_correction_file: ./correction_files/coord_transform
+    retry_connect: false
+transport:
+  - epicsca: {}
